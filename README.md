@@ -1,1 +1,1 @@
-# grandpartner.github.io
+# grandpartner

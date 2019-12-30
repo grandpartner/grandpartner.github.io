@@ -1,0 +1,9 @@
+{
+    "siteApiUrl": "https://gp-api-dev.lncknight.com",
+    "siteUrl": "http://localhost:4200",
+    "imageStorageUrl": "",
+    "pdfStorageUrl": "",
+    "siteImage": "",
+    "production": true,
+    "maintenance": false
+}
