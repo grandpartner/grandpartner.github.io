@@ -10,6 +10,7 @@
 var map = {
 	"../account/account.module": [
 		"./src/account/account.module.ts",
+		"default~account-account-module~profile-profile-module",
 		"account-account-module"
 	],
 	"../home/home.module": [
@@ -20,6 +21,7 @@ var map = {
 	],
 	"../profile/profile.module": [
 		"./src/profile/profile.module.ts",
+		"default~account-account-module~profile-profile-module",
 		"profile-profile-module"
 	]
 };
@@ -1139,6 +1141,11 @@ var environment = {
             },
             get resetPassword() {
                 return environment.siteApiUrl + "/client_profile/user";
+            }
+        },
+        transactions: {
+            transactionList: function (accountType) {
+                return environment.siteApiUrl + "/client_transaction/list?type=" + accountType;
             }
         }
     },
