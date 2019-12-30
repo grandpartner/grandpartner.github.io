@@ -691,12 +691,12 @@ var AuthTokenInterceptor = /** @class */ (function () {
                 }
                 // If we don't get a new token, we are in trouble so logout.
                 _this.authSvc.logout();
-                _this.router.navigate(['/login']);
+                _this.router.navigate(['/account']);
             })
                 .catch(function (error) {
                 // If there is an exception calling 'refreshToken', bad news so logout.
                 _this.authSvc.logout();
-                _this.router.navigate(['/login']);
+                _this.router.navigate(['/account']);
                 return rxjs_Observable__WEBPACK_IMPORTED_MODULE_5__["Observable"].throw(error);
             })
                 .finally(function () {
@@ -842,42 +842,42 @@ var AuthService = /** @class */ (function () {
     AuthService.prototype.login = function (data) {
         var _this = this;
         var url = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].endpoints.auth.url;
-        var params = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpParams"]()
-            .set("email", data.email)
-            .set("password", data.password)
-            .set("type", data.type)
-            .set("grant_type", "password");
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
-            .set("Content-Type", "application/x-www-form-urlencoded");
+        var body = new URLSearchParams();
+        body.set('type', data.type);
+        body.set('email', data.email);
+        body.set('password', data.password);
         return this.http
-            .post(url, params, { headers: headers })
+            .post(url, body.toString(), {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+        })
             .map(function (r) { return _this.onLogin(r); })
             .catch(function (r) { return _this.onError(r); });
     };
     AuthService.prototype.signup = function (email) {
         var _this = this;
         var url = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].endpoints.auth.signup;
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        var data = new FormData();
-        headers.append('Content-Type', 'application/form-data');
-        data.append('type', 'client');
-        data.append('email', email);
+        var body = new URLSearchParams();
+        body.set('type', 'client');
+        body.set('email', email);
         return this.http
-            .post(url, data, { headers: headers })
+            .post(url, body.toString(), {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+        })
             .map(function (r) { return r; })
             .catch(function (r) { return _this.respUtils.onServiceError(r); });
     };
-    AuthService.prototype.activateAccount = function (fdata) {
+    AuthService.prototype.activateAccount = function (data) {
         var _this = this;
         var url = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].endpoints.auth.activateAccount;
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        var data = new FormData();
-        headers.append('Content-Type', 'application/form-data');
-        headers.append('Authorization', fdata.token);
-        data.append('password', fdata.password);
+        var body = new URLSearchParams();
+        body.set('password', data.password);
         return this.http
-            .post(url, data, {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]().set('Authorization', fdata.token)
+            .post(url, body.toString(), {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .set('Authorization', data.token)
         })
             .map(function (r) { return r; })
             .catch(function (r) { return _this.respUtils.onServiceError(r); });
@@ -885,27 +885,27 @@ var AuthService = /** @class */ (function () {
     AuthService.prototype.requestPassword = function (email) {
         var _this = this;
         var url = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].endpoints.auth.requestPassword;
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        var data = new FormData();
-        headers.append('Content-Type', 'application/form-data');
-        data.append('type', 'client');
-        data.append('email', email);
+        var body = new URLSearchParams();
+        body.set('type', 'client');
+        body.set('email', email);
         return this.http
-            .post(url, data, { headers: headers })
+            .post(url, body.toString(), {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+        })
             .map(function (r) { return r; })
             .catch(function (r) { return _this.respUtils.onServiceError(r); });
     };
-    AuthService.prototype.resetPassword = function (fdata) {
+    AuthService.prototype.resetPassword = function (data) {
         var _this = this;
         var url = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["environment"].endpoints.profile.resetPassword;
-        var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]();
-        var data = new FormData();
-        headers.append('Content-Type', 'application/form-data');
-        headers.append('Authorization', fdata.token);
-        data.append('password', fdata.password);
+        var body = new URLSearchParams();
+        body.set('password', data.password);
         return this.http
-            .put(url, data, {
-            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]().set('Authorization', fdata.token)
+            .put(url, body.toString(), {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .set('Authorization', data.token)
         })
             .map(function (r) { return r; })
             .catch(function (r) { return _this.respUtils.onServiceError(r); });
